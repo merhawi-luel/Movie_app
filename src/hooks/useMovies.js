@@ -10,22 +10,23 @@ function useMovies(endpoint) {
     const controller = new AbortController();
 
     async function fetchMovies() {
-      setLoading(true);
-      setError(null);
+  setLoading(true);
+  setError(null);
 
-      try {
-        const response = await tmdb.get(endpoint, {
-          signal: controller.signal,
-        });
-        setData(response.data);
-      } catch (err) {
-        if (err.name !== "CanceledError") {
-          setError(err);
-        }
-      } finally {
-        setLoading(false);
-      }
+  try {
+    const response = await tmdb.get(endpoint, {
+      signal: controller.signal,
+    });
+    setData(response.data);
+    setLoading(false);
+  } catch (err) {
+    if (err.name !== "CanceledError") {
+      setError(err);
+      setLoading(false);
     }
+    // if it WAS canceled, do nothing — the newer request is handling loading/data
+  }
+}
 
     fetchMovies();
 

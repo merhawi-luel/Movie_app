@@ -5,9 +5,13 @@ import MovieDetail from "./pages/MovieDetail";
 import SearchResults from "./pages/SearchResults";
 import Watchlist from "./pages/Watchlist";
 import NotFound from "./pages/NotFound";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
 
 export default function App() {
   return (
+  <>
+    <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/browse" element={<Browse />} />
@@ -16,5 +20,7 @@ export default function App() {
       <Route path="/watchlist" element={<Watchlist />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
+    <Footer/>
+    </>
   );
 }
