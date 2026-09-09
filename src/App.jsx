@@ -10,7 +10,7 @@ import Footer from "./components/layout/Footer";
 
 export default function App() {
   return (
-  <>
+  <div className="bg-cinema-bg text-cinema-text min-h-screen" >
     <Navbar />
     <Routes>
       <Route path="/" element={<Home />} />
@@ -21,6 +21,6 @@ export default function App() {
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer/>
-    </>
+    </div>
   );
 }

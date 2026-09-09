@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@theme {
+  --color-cinema-bg: #0D0D1A;      
+  --color-cinema-surface: #1A1A2E;  
+  --color-cinema-card: #16213E;     
+  --color-cinema-accent: #E50914;   
+  --color-cinema-gold: #F5C518;     
+  --color-cinema-text: #EBEBEB;     
+  --color-cinema-muted: #8A8A9A;    
+}

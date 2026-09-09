@@ -1,17 +1,69 @@
+
 import useMovies from "../hooks/useMovies";
-import MovieCard from "../components/movie/MovieCard";
+import MovieRow from "../components/movie/MovieRow";
+import HeroBanner from "../components/movie/HeroBanner";
 
 function Home() {
-  const { data, loading, error } = useMovies("/movie/popular");
+  const trending = useMovies("/trending/movie/week");
+  const popular = useMovies("/movie/popular");
+  const topRated = useMovies("/movie/top_rated");
+  const genres = useMovies("/genre/movie/list");
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Something went wrong.</p>;
+  const isLoading =
+    trending.loading ||
+    popular.loading ||
+    topRated.loading ||
+    genres.loading;
+
+  const hasError =
+    trending.error ||
+    popular.error ||
+    topRated.error ||
+    genres.error;
+
+  if (isLoading) {
+    return <p className="p-6 text-cinema-text">Loading...</p>;
+  }
+
+  if (hasError) {
+    return (
+      <p className="p-6 text-cinema-text">
+        Something went wrong.
+      </p>
+    );
+  }
+
+  const genreMap = genres.data.genres.reduce((map, genre) => {
+    map[genre.id] = genre.name;
+    return map;
+  }, {});
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
-      {data.results.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
-      ))}
+    <div>
+      <HeroBanner
+        movies={trending.data.results.slice(0, 5)}
+        genreMap={genreMap}
+      />
+
+      <div className="px-6 mt-8">
+        <MovieRow
+          title="Trending"
+          movies={trending.data.results}
+          genreMap={genreMap}
+        />
+
+        <MovieRow
+          title="Popular"
+          movies={popular.data.results}
+          genreMap={genreMap}
+        />
+
+        <MovieRow
+          title="Top Rated"
+          movies={topRated.data.results}
+          genreMap={genreMap}
+        />
+      </div>
     </div>
   );
 }
