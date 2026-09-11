@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useWatchlist } from "../context/WatchlistContext";
-import MovieGrid from "../components/movie/MovieGrid";
+import MediaGrid from "../components/movie/MediaGrid";
 
 function Watchlist() {
   const { watchlist } = useWatchlist();
@@ -12,7 +12,7 @@ function Watchlist() {
           Your watchlist is empty
         </h2>
         <p className="text-cinema-muted mb-6">
-          Add movies you want to watch later by clicking the + icon on any card.
+          Add movies or shows you want to watch later by clicking the + icon on any card.
         </p>
         <Link
           to="/browse"
@@ -29,7 +29,7 @@ function Watchlist() {
       <h1 className="text-2xl font-bold text-cinema-text mb-6">
         My Watchlist ({watchlist.length})
       </h1>
-      <MovieGrid movies={watchlist} loading={false} />
+      <MediaGrid items={watchlist} loading={false} />
     </div>
   );
 }

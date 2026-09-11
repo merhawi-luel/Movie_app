@@ -1,7 +1,7 @@
-import MovieCard from "./MovieCard";
+import MediaCard from "./MediaCard";
 import SkeletonCard from "./SkeletonCard";
 
-function MovieGrid({ movies, genreMap, loading }) {
+function MediaGrid({ items, genreMap, loading, mediaType = "movie" }) {
   if (loading) {
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -14,11 +14,16 @@ function MovieGrid({ movies, genreMap, loading }) {
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} genreMap={genreMap} />
+      {items.map((item) => (
+        <MediaCard
+          key={item.id}
+          media={item}
+          genreMap={genreMap}
+          mediaType={item.mediaType || mediaType}
+        />
       ))}
     </div>
   );
 }
 
-export default MovieGrid;
+export default MediaGrid;

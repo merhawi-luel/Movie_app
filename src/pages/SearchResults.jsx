@@ -2,7 +2,7 @@ import { useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import useMovies from "../hooks/useMovies";
 import SearchInput from "../components/ui/SearchInput";
-import MovieGrid from "../components/movie/MovieGrid";
+import MediaGrid from "../components/movie/MediaGrid";
 
 function SearchResults() {
   const [query, setQuery] = useState("");
@@ -35,7 +35,7 @@ function SearchResults() {
       )}
 
       {debouncedQuery && !error && (loading || data?.results?.length > 0) && (
-        <MovieGrid movies={data?.results || []} loading={loading} />
+        <MediaGrid items={data?.results || []} loading={loading} mediaType="movie" />
       )}
     </div>
   );

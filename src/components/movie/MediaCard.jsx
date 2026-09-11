@@ -3,26 +3,29 @@ import { Plus, Check } from "lucide-react";
 import { useWatchlist } from "../../context/WatchlistContext";
 import RatingBadge from "../ui/RatingBadge";
 
-function MovieCard({ movie, genreMap = {} }) {
+function MediaCard({ media, genreMap = {}, mediaType = "movie" }) {
   const { isInWatchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
-  const inWatchlist = isInWatchlist(movie.id);
+  const inWatchlist = isInWatchlist(media.id);
 
-  const primaryGenre = movie.genre_ids?.[0];
+  const title = mediaType === "movie" ? media.title : media.name;
+  const dateField = mediaType === "movie" ? media.release_date : media.first_air_date;
+  const year = dateField?.slice(0, 4);
+
+  const primaryGenre = media.genre_ids?.[0];
   const genreName = genreMap[primaryGenre];
-  const year = movie.release_date?.slice(0, 4);
 
   function handleWatchlistClick(e) {
     e.preventDefault();
     if (inWatchlist) {
-      removeFromWatchlist(movie.id);
+      removeFromWatchlist(media.id);
     } else {
-      addToWatchlist(movie);
+      addToWatchlist({ ...media, mediaType });
     }
   }
 
   return (
     <Link
-      to={`/movie/${movie.id}`}
+      to={`/${mediaType}/${media.id}`}
       className="relative group block rounded-lg overflow-hidden bg-cinema-surface shadow-md hover:scale-105 transition-transform"
     >
       {genreName && (
@@ -32,8 +35,8 @@ function MovieCard({ movie, genreMap = {} }) {
       )}
 
       <img
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-        alt={movie.title}
+        src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
+        alt={title}
         className="w-full h-64 object-cover"
       />
 
@@ -49,9 +52,9 @@ function MovieCard({ movie, genreMap = {} }) {
       </div>
 
       <div className="p-3">
-        <h2 className="text-cinema-text font-semibold text-sm truncate">{movie.title}</h2>
+        <h2 className="text-cinema-text font-semibold text-sm truncate">{title}</h2>
         <div className="flex items-center gap-2 mt-1 text-xs text-cinema-muted">
-          <RatingBadge rating={movie.vote_average} />
+          <RatingBadge rating={media.vote_average} />
           {year && <span>{year}</span>}
         </div>
       </div>
@@ -59,4 +62,4 @@ function MovieCard({ movie, genreMap = {} }) {
   );
 }
 
-export default MovieCard;
+export default MediaCard;
