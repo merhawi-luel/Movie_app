@@ -4,7 +4,11 @@ function PersonCard({ person }) {
   return (
     <Link
       to={`/person/${person.id}`}
-      className="block rounded-lg overflow-hidden bg-cinema-surface shadow-md hover:scale-105 transition-transform text-center"
+      className="relative block rounded-lg overflow-hidden bg-black shadow-md hover:scale-105 transition-transform text-center
+      after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-red-600
+      after:shadow-[0_0_10px_2px_rgba(220,38,38,0.8)]
+      after:transition-all after:duration-300
+      hover:after:w-full"
     >
       <img
         src={
@@ -15,9 +19,15 @@ function PersonCard({ person }) {
         alt={person.name}
         className="w-full h-64 object-cover"
       />
-      <div className="p-3">
-        <h2 className="text-cinema-text font-semibold text-sm truncate">{person.name}</h2>
-        <p className="text-cinema-muted text-xs truncate">{person.known_for_department}</p>
+
+      <div className="p-3 hover:bg-red-400 hover:bg-opacity-20 transition-colors">
+        <h2 className="text-cinema-text font-semibold text-sm truncate ">
+          {person.name}
+        </h2>
+
+        <p className="text-cinema-muted text-xs truncate">
+          {person.known_for_department}
+        </p>
       </div>
     </Link>
   );

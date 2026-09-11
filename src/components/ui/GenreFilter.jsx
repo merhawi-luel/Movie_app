@@ -1,30 +1,24 @@
 function GenreFilter({ genres, selectedGenre, onSelectGenre }) {
   return (
-    <div className="flex gap-2 overflow-x-auto sm:flex-wrap sm:overflow-visible pb-2">
-      <button
-        onClick={() => onSelectGenre(null)}
-        className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-          selectedGenre === null
-            ? "bg-cinema-accent text-white"
-            : "bg-cinema-surface text-cinema-muted hover:text-white"
-        }`}
+    <div className="flex items-center gap-2">
+      <label htmlFor="genre-select" className="text-sm text-cinema-muted font-medium">
+        Genre:
+      </label>
+      <select
+        id="genre-select"
+        value={selectedGenre ?? ""}
+        onChange={(e) =>
+          onSelectGenre(e.target.value === "" ? null : Number(e.target.value))
+        }
+        className="bg-cinema-surface text-cinema-text text-sm px-4 py-2 rounded-lg border border-cinema-muted/20 focus:outline-none focus:border-cinema-accent"
       >
-        All
-      </button>
-
-      {genres.map((genre) => (
-        <button
-          key={genre.id}
-          onClick={() => onSelectGenre(genre.id)}
-          className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-            selectedGenre === genre.id
-              ? "bg-cinema-accent text-white"
-              : "bg-cinema-surface text-cinema-muted hover:text-white"
-          }`}
-        >
-          {genre.name}
-        </button>
-      ))}
+        <option value="">All</option>
+        {genres.map((genre) => (
+          <option key={genre.id} value={genre.id}>
+            {genre.name}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

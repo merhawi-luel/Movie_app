@@ -93,9 +93,8 @@ function MediaDetail({ mediaType }) {
         <div className="relative z-10 px-8 pb-10 max-w-3xl">
           <Link
             to={mediaType === "tv" ? "/series" : "/browse"}
-            className="flex items-center gap-2 text-cinema-muted hover:text-cinema-text transition mb-4"
+            className="flex items-center gap-2 mb-4 bg-[#1a1a1a] w-fit text-white font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition"
           >
-            <ArrowLeft size={18} />
             Back to {mediaType === "tv" ? "Series" : "Movies"}
           </Link>
 

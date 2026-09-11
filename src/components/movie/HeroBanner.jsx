@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Play, Info } from "lucide-react";
 import useMovies from "../../hooks/useMovies";
 import RatingBadge from "../ui/RatingBadge";
+import TrailerModal from "./TrailerModal";
 
 function HeroBanner({ movies = [], genreMap = {} }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [trailerKey, setTrailerKey] = useState(null);
 
   useEffect(() => {
     if (movies.length === 0) return;
@@ -29,7 +32,12 @@ function HeroBanner({ movies = [], genreMap = {} }) {
         }}
       >
         {movies.map((movie) => (
-          <HeroSlide key={movie.id} movie={movie} genreMap={genreMap} />
+          <HeroSlide
+            key={movie.id}
+            movie={movie}
+            genreMap={genreMap}
+            onPlayTrailer={setTrailerKey}
+          />
         ))}
       </div>
 
@@ -46,12 +54,26 @@ function HeroBanner({ movies = [], genreMap = {} }) {
           />
         ))}
       </div>
+
+      {trailerKey && (
+        <TrailerModal
+          videoKey={trailerKey}
+          onClose={() => setTrailerKey(null)}
+        />
+      )}
     </div>
   );
 }
 
-function HeroSlide({ movie, genreMap }) {
+function HeroSlide({ movie, genreMap, onPlayTrailer }) {
+  const navigate = useNavigate();
+
   const { data: details, loading } = useMovies(`/movie/${movie.id}`);
+  const { data: videos } = useMovies(`/movie/${movie.id}/videos`);
+
+  const trailer = videos?.results?.find(
+    (video) => video.site === "YouTube" && video.type === "Trailer"
+  );
 
   const year = movie.release_date?.slice(0, 4);
 
@@ -107,11 +129,18 @@ function HeroSlide({ movie, genreMap }) {
         </p>
 
         <div className="flex gap-4">
-          <button className="flex items-center gap-2 bg-cinema-accent text-white font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition">
+          <button
+            onClick={() => trailer && onPlayTrailer(trailer.key)}
+            disabled={!trailer}
+            className="flex items-center gap-2 bg-cinema-accent text-white font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:brightness-100"
+          >
             <Play size={18} fill="white" />
-            Play Now
+            Play Trailer
           </button>
-          <button className="flex items-center gap-2 bg-white/10 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/20 transition">
+          <button
+            onClick={() => navigate(`/movie/${movie.id}`)}
+            className="flex items-center gap-2 bg-white/10 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/20 transition"
+          >
             <Info size={18} />
             More Info
           </button>

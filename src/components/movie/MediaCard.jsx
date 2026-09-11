@@ -26,7 +26,7 @@ function MediaCard({ media, genreMap = {}, mediaType = "movie" }) {
   return (
     <Link
       to={`/${mediaType}/${media.id}`}
-      className="relative group block rounded-lg overflow-hidden bg-cinema-surface shadow-md hover:scale-105 transition-transform"
+      className="relative group block rounded-lg overflow-hidden bg-cinema-surface shadow-md hover:scale-105 transition-transform "
     >
       {genreName && (
         <span className="absolute top-2 left-2 z-10 bg-cinema-accent text-white text-[10px] font-bold uppercase px-2 py-1 rounded-full">

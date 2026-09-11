@@ -17,8 +17,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-cinema-bg text-cinema-text">
-      <Navbar />
-      <main className="flex-1">
+      <Navbar  />
+      <main className="flex-1 pt-20">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<MediaBrowse mediaType="movie" />} />

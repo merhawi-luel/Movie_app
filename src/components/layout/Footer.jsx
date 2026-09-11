@@ -7,7 +7,7 @@ function Footer() {
 
         {/* Logo */}
         <Link to="/" className="font-serif text-2xl font-bold text-white">
-          CINEMA<span className="text-red-600">.</span>
+          CINEMA
         </Link>
 
         {/* Copyright */}

@@ -21,6 +21,7 @@ function Navbar() {
     { label: "Movies", path: "/browse" },
     { label: "Series", path: "/series" },
     { label: "Celebrities", path: "/celebrities" },
+    { label: "Search", path: "/search" },
   ];
 
   return (
@@ -31,26 +32,24 @@ function Navbar() {
           : "bg-gradient-to-b from-black/75 to-transparent"
       }`}
     >
-      <div className="flex items-center gap-8">
-        <Link to="/" className="text-2xl tracking-wider text-white select-none">
-          CINEMA<span className="text-cinema-accent">.</span>
-        </Link>
+      <Link to="/" className="text-2xl tracking-wider text-white select-none">
+        CINEMA
+      </Link>
 
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-sm font-medium transition-colors ${
-                location.pathname === link.path
-                  ? "text-white"
-                  : "text-cinema-muted hover:text-white"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+      <div className="hidden md:flex items-center gap-8 bg-cinema-surface/60 border border-cinema-muted/20 rounded-full px-2 py-1.5">
+        {navLinks.map((link) => (
+          <Link
+            key={link.path}
+            to={link.path}
+            className={`text-sm font-medium px-4 py-1.5 rounded-full transition-colors ${
+              location.pathname === link.path
+                ? "bg-cinema-accent text-white"
+                : "text-cinema-muted hover:text-white"
+            }`}
+          >
+            {link.label}
+          </Link>
+        ))}
       </div>
 
       <Link

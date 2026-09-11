@@ -33,7 +33,7 @@ function MediaBrowse({ mediaType }) {
         {mediaType === "movie" ? "Browse Movies" : "Browse Series"}
       </h1>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
         {genresResult.data && (
           <GenreFilter
             genres={genresResult.data.genres}
