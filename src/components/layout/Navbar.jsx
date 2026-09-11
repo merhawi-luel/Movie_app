@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useWatchlist } from "../../context/WatchlistContext";
 
 function Navbar() {
+  const { watchlist } = useWatchlist();
+
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-black/50 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
       <Link to="/" className="text-xl font-bold text-white tracking-wide">
@@ -25,7 +28,7 @@ function Navbar() {
       >
         Watchlist
         <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs bg-red-600 text-white rounded-full">
-          0
+          {watchlist.length}
         </span>
       </Link>
     </nav>
