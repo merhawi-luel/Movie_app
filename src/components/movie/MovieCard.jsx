@@ -1,10 +1,23 @@
 import { Link } from "react-router-dom";
-import { Star, Play, Plus } from "lucide-react";
+import { Star, Play, Plus, Check } from "lucide-react";
+import { useWatchlist } from "../../context/WatchlistContext";
 
 function MovieCard({ movie, genreMap = {} }) {
+  const { isInWatchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
+  const inWatchlist = isInWatchlist(movie.id);
+
   const primaryGenre = movie.genre_ids?.[0];
   const genreName = genreMap[primaryGenre];
   const year = movie.release_date?.slice(0, 4);
+
+  function handleWatchlistClick(e) {
+    e.preventDefault();
+    if (inWatchlist) {
+      removeFromWatchlist(movie.id);
+    } else {
+      addToWatchlist(movie);
+    }
+  }
 
   return (
     <Link
@@ -28,10 +41,12 @@ function MovieCard({ movie, genreMap = {} }) {
           <Play size={20} fill="white" />
         </span>
         <button
-          onClick={(e) => e.preventDefault()}
-          className="bg-white/20 text-white rounded-full p-3 hover:scale-110 transition-transform"
+          onClick={handleWatchlistClick}
+          className={`rounded-full p-3 hover:scale-110 transition-transform ${
+            inWatchlist ? "bg-cinema-accent text-white" : "bg-white/20 text-white"
+          }`}
         >
-          <Plus size={20} />
+          {inWatchlist ? <Check size={20} /> : <Plus size={20} />}
         </button>
       </div>
 
