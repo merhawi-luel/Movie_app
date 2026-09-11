@@ -1,17 +1,17 @@
 import { useState } from "react";
 import useMovies from "../hooks/useMovies";
-import MovieGrid from "../components/movie/MovieGrid";
+import MediaGrid from "../components/movie/MediaGrid";
 import GenreFilter from "../components/ui/GenreFilter";
 import SortSelect from "../components/ui/SortSelect";
 
-function Browse() {
+function MediaBrowse({ mediaType }) {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [sortBy, setSortBy] = useState("popularity.desc");
 
-  const genresResult = useMovies("/genre/movie/list");
+  const genresResult = useMovies(`/genre/${mediaType}/list`);
 
   const endpoint =
-    `/discover/movie?sort_by=${sortBy}` +
+    `/discover/${mediaType}?sort_by=${sortBy}` +
     (selectedGenre ? `&with_genres=${selectedGenre}` : "");
 
   const { data, loading, error } = useMovies(endpoint);
@@ -29,7 +29,9 @@ function Browse() {
 
   return (
     <div className="px-6 py-8">
-      <h1 className="text-2xl font-bold text-cinema-text mb-6">Browse</h1>
+      <h1 className="text-2xl font-bold text-cinema-text mb-6">
+        {mediaType === "movie" ? "Browse Movies" : "Browse Series"}
+      </h1>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         {genresResult.data && (
@@ -42,13 +44,14 @@ function Browse() {
         <SortSelect sortBy={sortBy} onChangeSort={setSortBy} />
       </div>
 
-      <MovieGrid
-        movies={data?.results || []}
+      <MediaGrid
+        items={data?.results || []}
         genreMap={genreMap}
         loading={loading || genresResult.loading}
+        mediaType={mediaType}
       />
     </div>
   );
 }
 
-export default Browse;
+export default MediaBrowse;
