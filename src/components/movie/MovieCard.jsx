@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Star, Play, Plus, Check } from "lucide-react";
+import { Star, Plus, Check } from "lucide-react";
 import { useWatchlist } from "../../context/WatchlistContext";
 
 function MovieCard({ movie, genreMap = {} }) {
@@ -36,10 +36,7 @@ function MovieCard({ movie, genreMap = {} }) {
         className="w-full h-64 object-cover"
       />
 
-      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-        <span className="bg-cinema-accent text-white rounded-full p-3 hover:scale-110 transition-transform">
-          <Play size={20} fill="white" />
-        </span>
+      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
         <button
           onClick={handleWatchlistClick}
           className={`rounded-full p-3 hover:scale-110 transition-transform ${
