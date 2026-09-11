@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Star, Play, Plus } from "lucide-react";
 
 function MovieCard({ movie, genreMap = {} }) {
@@ -6,7 +7,10 @@ function MovieCard({ movie, genreMap = {} }) {
   const year = movie.release_date?.slice(0, 4);
 
   return (
-    <div className="relative group rounded-lg overflow-hidden bg-cinema-surface shadow-md hover:scale-105 transition-transform">
+    <Link
+      to={`/movie/${movie.id}`}
+      className="relative group block rounded-lg overflow-hidden bg-cinema-surface shadow-md hover:scale-105 transition-transform"
+    >
       {genreName && (
         <span className="absolute top-2 left-2 z-10 bg-cinema-accent text-white text-[10px] font-bold uppercase px-2 py-1 rounded-full">
           {genreName}
@@ -20,18 +24,19 @@ function MovieCard({ movie, genreMap = {} }) {
       />
 
       <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-        <button className="bg-cinema-accent text-white rounded-full p-3 hover:scale-110 transition-transform">
+        <span className="bg-cinema-accent text-white rounded-full p-3 hover:scale-110 transition-transform">
           <Play size={20} fill="white" />
-        </button>
-        <button className="bg-white/20 text-white rounded-full p-3 hover:scale-110 transition-transform">
+        </span>
+        <button
+          onClick={(e) => e.preventDefault()}
+          className="bg-white/20 text-white rounded-full p-3 hover:scale-110 transition-transform"
+        >
           <Plus size={20} />
         </button>
       </div>
 
       <div className="p-3">
-        <h2 className="text-cinema-text font-semibold text-sm truncate">
-          {movie.title}
-        </h2>
+        <h2 className="text-cinema-text font-semibold text-sm truncate">{movie.title}</h2>
         <div className="flex items-center gap-2 mt-1 text-xs text-cinema-muted">
           <span className="flex items-center gap-1 text-cinema-gold">
             <Star size={12} fill="currentColor" />
@@ -40,7 +45,7 @@ function MovieCard({ movie, genreMap = {} }) {
           {year && <span>{year}</span>}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
