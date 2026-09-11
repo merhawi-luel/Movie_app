@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Star, Play, Plus, Check } from "lucide-react";
+import { Play, Plus, Check } from "lucide-react";
 import useMovies from "../hooks/useMovies";
 import MovieCard from "../components/movie/MovieCard";
 import TrailerModal from "../components/movie/TrailerModal";
+import RatingBadge from "../components/ui/RatingBadge";
 import { useWatchlist } from "../context/WatchlistContext";
 
 function MovieDetail() {
@@ -51,7 +52,6 @@ function MovieDetail() {
 
   return (
     <div>
-      {/* Detail hero */}
       <div
         className="relative h-[60vh] bg-cover bg-center flex items-end"
         style={{
@@ -82,10 +82,7 @@ function MovieDetail() {
             <h1 className="text-4xl font-bold text-cinema-text mb-3">{movie.title}</h1>
 
             <div className="flex items-center gap-3 text-sm text-cinema-muted mb-4">
-              <span className="flex items-center gap-1 text-cinema-gold">
-                <Star size={14} fill="currentColor" />
-                {movie.vote_average?.toFixed(1)}
-              </span>
+              <RatingBadge rating={movie.vote_average} />
               <span>{movie.release_date?.slice(0, 4)}</span>
               {movie.runtime && <span>{formatRuntime(movie.runtime)}</span>}
             </div>
@@ -118,7 +115,6 @@ function MovieDetail() {
         </div>
       </div>
 
-      {/* Cast */}
       {!creditsLoading && cast.length > 0 && (
         <section className="px-8 py-8">
           <h2 className="text-xl font-semibold text-cinema-text mb-4">Cast</h2>
@@ -142,7 +138,6 @@ function MovieDetail() {
         </section>
       )}
 
-      {/* Similar movies */}
       {!similarLoading && similarMovies.length > 0 && (
         <section className="px-8 py-8">
           <h2 className="text-xl font-semibold text-cinema-text mb-4">Similar Movies</h2>
@@ -156,12 +151,8 @@ function MovieDetail() {
         </section>
       )}
 
-      {/* Trailer modal */}
       {showTrailer && trailer && (
-        <TrailerModal
-          videoKey={trailer.key}
-          onClose={() => setShowTrailer(false)}
-        />
+        <TrailerModal videoKey={trailer.key} onClose={() => setShowTrailer(false)} />
       )}
     </div>
   );

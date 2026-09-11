@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Play, Info, Star } from "lucide-react";
+import { Play, Info } from "lucide-react";
 import useMovies from "../../hooks/useMovies";
+import RatingBadge from "../ui/RatingBadge";
 
 function HeroBanner({ movies = [], genreMap = {} }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,7 +22,6 @@ function HeroBanner({ movies = [], genreMap = {} }) {
 
   return (
     <div className="relative h-[70vh] overflow-hidden">
-      {/* Slides */}
       <div
         className="flex h-full transition-transform duration-700 ease-in-out"
         style={{
@@ -29,11 +29,7 @@ function HeroBanner({ movies = [], genreMap = {} }) {
         }}
       >
         {movies.map((movie) => (
-          <HeroSlide
-            key={movie.id}
-            movie={movie}
-            genreMap={genreMap}
-          />
+          <HeroSlide key={movie.id} movie={movie} genreMap={genreMap} />
         ))}
       </div>
 
@@ -66,10 +62,8 @@ function HeroSlide({ movie, genreMap }) {
 
   function formatRuntime(minutes) {
     if (!minutes) return null;
-
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
-
     return `${h}h ${m}m`;
   }
 
@@ -83,7 +77,6 @@ function HeroSlide({ movie, genreMap }) {
       <div className="absolute inset-0 bg-gradient-to-t from-cinema-bg via-cinema-bg/60 to-transparent" />
 
       <div className="relative z-10 px-8 pb-10 max-w-2xl">
-        
         {genreNames?.length > 0 && (
           <div className="flex gap-2 mb-4">
             {genreNames.map((name) => (
@@ -102,13 +95,8 @@ function HeroSlide({ movie, genreMap }) {
         </h1>
 
         <div className="flex items-center gap-3 text-sm text-cinema-muted mb-4">
-          <span className="flex items-center gap-1 text-cinema-gold">
-            <Star size={14} fill="currentColor" />
-            {movie.vote_average?.toFixed(1)}
-          </span>
-
+          <RatingBadge rating={movie.vote_average} />
           {year && <span>{year}</span>}
-
           {!loading && details?.runtime && (
             <span>{formatRuntime(details.runtime)}</span>
           )}
@@ -123,7 +111,6 @@ function HeroSlide({ movie, genreMap }) {
             <Play size={18} fill="white" />
             Play Now
           </button>
-
           <button className="flex items-center gap-2 bg-white/10 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/20 transition">
             <Info size={18} />
             More Info

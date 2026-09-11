@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Star, Plus, Check } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import { useWatchlist } from "../../context/WatchlistContext";
+import RatingBadge from "../ui/RatingBadge";
 
 function MovieCard({ movie, genreMap = {} }) {
   const { isInWatchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
@@ -50,10 +51,7 @@ function MovieCard({ movie, genreMap = {} }) {
       <div className="p-3">
         <h2 className="text-cinema-text font-semibold text-sm truncate">{movie.title}</h2>
         <div className="flex items-center gap-2 mt-1 text-xs text-cinema-muted">
-          <span className="flex items-center gap-1 text-cinema-gold">
-            <Star size={12} fill="currentColor" />
-            {movie.vote_average?.toFixed(1)}
-          </span>
+          <RatingBadge rating={movie.vote_average} />
           {year && <span>{year}</span>}
         </div>
       </div>
