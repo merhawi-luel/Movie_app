@@ -28,7 +28,7 @@ export function WatchlistProvider({ children }) {
       }
       return [...prev, movie];
     });
-    setToastMessage(`Added "${movie.title}" to your watchlist`);
+    setToastMessage(`Added "${movie.title || movie.name}" to your watchlist`);
   }
 
   function removeFromWatchlist(movieId) {
@@ -36,7 +36,9 @@ export function WatchlistProvider({ children }) {
     // otherwise the movie is gone and we can't build the toast message.
     const movie = watchlist.find((m) => m.id === movieId);
     setToastMessage(
-      movie ? `Removed "${movie.title}" from your watchlist` : "Removed from watchlist"
+      movie
+        ? `Removed "${movie.title || movie.name}" from your watchlist`
+        : "Removed from watchlist"
     );
     setWatchlist((prev) => prev.filter((m) => m.id !== movieId));
   }
