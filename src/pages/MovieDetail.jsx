@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Star, Play, Plus } from "lucide-react";
+import { Star, Play, Plus, Check } from "lucide-react";
 import useMovies from "../hooks/useMovies";
 import MovieCard from "../components/movie/MovieCard";
 import TrailerModal from "../components/movie/TrailerModal";
+import { useWatchlist } from "../context/WatchlistContext";
 
 function MovieDetail() {
   const { id } = useParams();
   const [showTrailer, setShowTrailer] = useState(false);
+  const { isInWatchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
 
   const { data: movie, loading, error } = useMovies(`/movie/${id}`);
   const { data: credits, loading: creditsLoading } = useMovies(`/movie/${id}/credits`);
@@ -23,6 +25,22 @@ function MovieDetail() {
 
   const cast = credits?.cast?.slice(0, 10) || [];
   const similarMovies = similar?.results?.slice(0, 10) || [];
+  const inWatchlist = isInWatchlist(movie.id);
+
+  function handleWatchlistClick() {
+    if (inWatchlist) {
+      removeFromWatchlist(movie.id);
+    } else {
+      addToWatchlist({
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        vote_average: movie.vote_average,
+        release_date: movie.release_date,
+        genre_ids: movie.genres?.map((g) => g.id) || [],
+      });
+    }
+  }
 
   function formatRuntime(minutes) {
     if (!minutes) return null;
@@ -84,9 +102,16 @@ function MovieDetail() {
                   Watch Trailer
                 </button>
               )}
-              <button className="flex items-center gap-2 bg-white/10 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/20 transition">
-                <Plus size={18} />
-                Add to Watchlist
+              <button
+                onClick={handleWatchlistClick}
+                className={`flex items-center gap-2 font-semibold px-6 py-3 rounded-lg transition ${
+                  inWatchlist
+                    ? "bg-cinema-accent text-white hover:brightness-110"
+                    : "bg-white/10 text-white hover:bg-white/20"
+                }`}
+              >
+                {inWatchlist ? <Check size={18} /> : <Plus size={18} />}
+                {inWatchlist ? "In Watchlist" : "Add to Watchlist"}
               </button>
             </div>
           </div>
