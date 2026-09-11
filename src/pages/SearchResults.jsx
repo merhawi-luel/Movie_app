@@ -2,7 +2,7 @@ import { useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import useMovies from "../hooks/useMovies";
 import SearchInput from "../components/ui/SearchInput";
-import MovieCard from "../components/movie/MovieCard";
+import MovieGrid from "../components/movie/MovieGrid";
 
 function SearchResults() {
   const [query, setQuery] = useState("");
@@ -26,24 +26,16 @@ function SearchResults() {
         <p className="text-cinema-muted">Start typing to search for movies.</p>
       )}
 
-      {debouncedQuery && loading && (
-        <p className="text-cinema-text">Searching...</p>
-      )}
-
       {debouncedQuery && error && (
         <p className="text-cinema-text">Something went wrong.</p>
       )}
 
-      {debouncedQuery && !loading && data?.results?.length === 0 && (
+      {debouncedQuery && !error && !loading && data?.results?.length === 0 && (
         <p className="text-cinema-muted">No results found for "{debouncedQuery}".</p>
       )}
 
-      {debouncedQuery && !loading && data?.results?.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {data.results.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </div>
+      {debouncedQuery && !error && (loading || data?.results?.length > 0) && (
+        <MovieGrid movies={data?.results || []} loading={loading} />
       )}
     </div>
   );

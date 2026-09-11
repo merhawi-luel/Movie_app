@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useWatchlist } from "../context/WatchlistContext";
-import MovieCard from "../components/movie/MovieCard";
+import MovieGrid from "../components/movie/MovieGrid";
 
 function Watchlist() {
   const { watchlist } = useWatchlist();
@@ -29,11 +29,7 @@ function Watchlist() {
       <h1 className="text-2xl font-bold text-cinema-text mb-6">
         My Watchlist ({watchlist.length})
       </h1>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {watchlist.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
+      <MovieGrid movies={watchlist} loading={false} />
     </div>
   );
 }
